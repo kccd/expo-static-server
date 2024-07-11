@@ -46,6 +46,61 @@ type startServer = (props: {
   root: string,
 }) => Promise<void>
 ```
+Example:
+
+Starts a static server and serves the specified files.
+```typescript
+import * as FileSystem from "expo-file-system";
+import { startServer } from "expo-static-server";
+
+export async function startFileServerByFiles(props: {
+  port: number;
+  host: string;
+  files: { uri: string; name: string; type: string }[];
+}) {
+  const { port, host, files } = props;
+  const root =
+    (FileSystem.documentDirectory || "") + "expo_static_server_root_files";
+  for (const file of files) {
+    const fileName = `${file.name}${file.type ? "." + file.type : ""}`;
+    await FileSystem.copyAsync({
+      from: file.uri,
+      to: root + "/" + fileName,
+    });
+  }
+  await startServer({
+    port,
+    host,
+    root,
+  });
+}
+
+
+```
+
+Starts a static server and serves files extracted from the specified zip file.
+
+```typescript
+import * as FileSystem from "expo-file-system";
+import { startServer } from "expo-static-server";
+import { unzip } from 'react-native-zip-archive';
+
+export async function startFileServerByZipFileUri(props: {
+  port: number;
+  host: string;
+  zipFileUri: string;
+}) {
+  const { port, host, zipFileUri } = props;
+  const root =
+    (FileSystem.documentDirectory || "") + "expo_static_server_root_zip_files";
+  await unzip(zipFileUri, root);
+  await startServer({
+    port,
+    host,
+    root,
+  });
+}
+```
 
 ### stopServer
 Stop the static server.
