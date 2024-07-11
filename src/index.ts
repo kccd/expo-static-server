@@ -1,26 +1,31 @@
-import { NativeModulesProxy, EventEmitter, Subscription } from 'expo-modules-core';
+import ExpoStaticServerModule from "./ExpoStaticServerModule";
 
-// Import the native module. On web, it will be resolved to ExpoStaticServer.web.ts
-// and on native platforms to ExpoStaticServer.ts
-import ExpoStaticServerModule from './ExpoStaticServerModule';
-import ExpoStaticServerView from './ExpoStaticServerView';
-import { ChangeEventPayload, ExpoStaticServerViewProps } from './ExpoStaticServer.types';
-
-// Get the native constant value.
-export const PI = ExpoStaticServerModule.PI;
-
-export function hello(): string {
-  return ExpoStaticServerModule.hello();
+export async function startServer(props: {
+  port: number;
+  host: string;
+  root: string;
+}) {
+  const port = props.port;
+  if (isNaN(port) || port < 0 || port > 65535) {
+    throw new Error(
+      "ExpoStaticServerModule port number must be in the range 0-65535",
+    );
+  }
+  let root = props.root;
+  if (!root) {
+    throw new Error("ExpoStaticServerModule requires root path");
+  }
+  const prefix = "file://";
+  if (root.startsWith(prefix)) {
+    root = root.slice(prefix.length);
+  }
+  return (await ExpoStaticServerModule.startServer(
+    props.host,
+    port,
+    root,
+  )) as string;
 }
 
-export async function setValueAsync(value: string) {
-  return await ExpoStaticServerModule.setValueAsync(value);
+export async function stopServer() {
+  return (await ExpoStaticServerModule.stopServer()) as string;
 }
-
-const emitter = new EventEmitter(ExpoStaticServerModule ?? NativeModulesProxy.ExpoStaticServer);
-
-export function addChangeListener(listener: (event: ChangeEventPayload) => void): Subscription {
-  return emitter.addListener<ChangeEventPayload>('onChange', listener);
-}
-
-export { ExpoStaticServerView, ExpoStaticServerViewProps, ChangeEventPayload };

@@ -1,6 +1,6 @@
 {
   "name": "expo-static-server",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A static server for expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
