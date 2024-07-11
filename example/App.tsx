@@ -1,7 +1,6 @@
 import { useAssets } from "expo-asset";
 import * as FileSystem from "expo-file-system";
-import * as ExpoStaticServer from "expo-static-server";
-import { stopServer } from "expo-static-server";
+import { stopServer, startServer } from "expo-static-server";
 import { useEffect, useMemo, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
@@ -91,10 +90,10 @@ export default function App() {
           <Button
             title="START"
             onPress={() => {
-              ExpoStaticServer.startServer(serverInfo)
+              startServer(serverInfo)
                 .then(() => {
                   console.log(
-                    `Expo static server is running at ${serverInfo.host}:${serverInfo.port}`,
+                    `The static server is running at ${serverInfo.host}:${serverInfo.port}`,
                   );
                   console.log(`The server's root is ${serverInfo.root}`);
                 })
@@ -108,9 +107,9 @@ export default function App() {
         <Button
           title="STOP"
           onPress={() => {
-            ExpoStaticServer.stopServer()
+            stopServer()
               .then(() => {
-                console.log("Expo is stopped");
+                console.log("The static server is stopped");
               })
               .catch((err) => {
                 console.log(err);
