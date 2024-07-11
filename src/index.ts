@@ -1,4 +1,5 @@
 import * as FileSystem from "expo-file-system";
+import { unzip } from "react-native-zip-archive";
 
 import ExpoStaticServerModule from "./ExpoStaticServerModule";
 
@@ -34,15 +35,16 @@ export async function stopServer() {
 
 export async function startFileServerByFiles(props: {
   port: number;
-  host: number;
+  host: string;
   files: { uri: string; name: string; type: string }[];
 }) {
   const { port, host, files } = props;
-  const root = FileSystem.documentDirectory + "expo_static_server_root_files";
+  const root =
+    (FileSystem.documentDirectory || "") + "expo_static_server_root_files";
   for (const file of files) {
     const fileName = `${file.name}${file.type ? "." + file.type : ""}`;
     await FileSystem.copyAsync({
-      from: fileUri,
+      from: file.uri,
       to: root + "/" + fileName,
     });
   }
@@ -55,13 +57,13 @@ export async function startFileServerByFiles(props: {
 
 export async function startFileServerByZipFileUri(props: {
   port: number;
-  host: number;
+  host: string;
   zipFileUri: string;
 }) {
   const { port, host, zipFileUri } = props;
   const root =
-    FileSystem.documentDirectory + "expo_static_server_root_zip_files";
-  await unzip(zipFileUri, webRootPath);
+    (FileSystem.documentDirectory || "") + "expo_static_server_root_zip_files";
+  await unzip(zipFileUri, root);
   await startServer({
     port,
     host,
