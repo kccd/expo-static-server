@@ -1,6 +1,6 @@
 {
   "name": "expo-static-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A static server for expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -21,14 +21,16 @@
     "expo-static-server",
     "ExpoStaticServer"
   ],
-  "repository": "https://github.com/kccd/expo-static-server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kccd/expo-static-server.git"
+  },
   "bugs": {
     "url": "https://github.com/kccd/expo-static-server/issues"
   },
   "author": "pxgo <pengxiguaa@gmail.com> (https://github.com/pxgo)",
   "license": "MIT",
   "homepage": "https://github.com/kccd/expo-static-server#readme",
-  "dependencies": {},
   "devDependencies": {
     "@types/react": "^18.0.25",
     "expo-module-scripts": "^3.5.2",
@@ -38,5 +40,12 @@
     "expo": "*",
     "react": "*",
     "react-native": "*"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "expo-file-system": "^17.0.1",
+    "react-native-zip-archive": "^7.0.0"
   }
 }

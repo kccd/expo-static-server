@@ -33,8 +33,47 @@ export function TestComponent(props: { children: React.ReactNode }) {
   }, []);
   return <>{props.children}</>;
 }
-
 ```
-If you want to access external storage in your project, you may need to add the following permissions.
 
-Android: `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`
+## API 
+
+### startServer
+Starts a static server and serves files from the specified root directory.
+```typescript
+type startServer = (props: {
+  host: string,
+  port: number,
+  root: string,
+}) => Promise<void>
+```
+
+### startFileServerByFiles
+Starts a static server and serves the specified files.
+```typescript
+type startFileServerByFiles = (props: {
+  host: string,
+  port: number,
+  files: {
+    name: string, 
+    type: string,
+    uri: string,
+  }[],
+}) => Promise<void>
+```
+
+### startFileServerByZipFileUri
+Starts a static server and serves files extracted from the specified zip file.
+```typescript
+type startFileServerByZipFileUri = (props: {
+  host: string,
+  port: number,
+  zipFileUri: string,
+}) => Pormise<void> 
+```
+
+
+## Permissions
+If you want to access external storage in your project, you may need to add the following permissions:
+
++ Android: `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`
+

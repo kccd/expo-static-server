@@ -1,3 +1,5 @@
+import * as FileSystem from "expo-file-system";
+
 import ExpoStaticServerModule from "./ExpoStaticServerModule";
 
 export async function startServer(props: {
@@ -28,4 +30,41 @@ export async function startServer(props: {
 
 export async function stopServer() {
   return (await ExpoStaticServerModule.stopServer()) as string;
+}
+
+export async function startFileServerByFiles(props: {
+  port: number;
+  host: number;
+  files: { uri: string; name: string; type: string }[];
+}) {
+  const { port, host, files } = props;
+  const root = FileSystem.documentDirectory + "expo_static_server_root_files";
+  for (const file of files) {
+    const fileName = `${file.name}${file.type ? "." + file.type : ""}`;
+    await FileSystem.copyAsync({
+      from: fileUri,
+      to: root + "/" + fileName,
+    });
+  }
+  await startServer({
+    port,
+    host,
+    root,
+  });
+}
+
+export async function startFileServerByZipFileUri(props: {
+  port: number;
+  host: number;
+  zipFileUri: string;
+}) {
+  const { port, host, zipFileUri } = props;
+  const root =
+    FileSystem.documentDirectory + "expo_static_server_root_zip_files";
+  await unzip(zipFileUri, webRootPath);
+  await startServer({
+    port,
+    host,
+    root,
+  });
 }
