@@ -47,30 +47,11 @@ type startServer = (props: {
 }) => Promise<void>
 ```
 
-### startFileServerByFiles
-Starts a static server and serves the specified files.
+### stopServer
+Stop the static server.
 ```typescript
-type startFileServerByFiles = (props: {
-  host: string,
-  port: number,
-  files: {
-    name: string, 
-    type: string,
-    uri: string,
-  }[],
-}) => Promise<void>
+type stopServer = () => Promise<void>
 ```
-
-### startFileServerByZipFileUri
-Starts a static server and serves files extracted from the specified zip file.
-```typescript
-type startFileServerByZipFileUri = (props: {
-  host: string,
-  port: number,
-  zipFileUri: string,
-}) => Pormise<void> 
-```
-
 
 ## Permissions
 If you want to access external storage in your project, you may need to add the following permissions:

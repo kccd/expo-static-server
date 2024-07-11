@@ -1,5 +1,5 @@
-import * as FileSystem from "expo-file-system";
-import { unzip } from "react-native-zip-archive";
+/*import * as FileSystem from "expo-file-system";
+import { unzip } from "react-native-zip-archive";*/
 
 import ExpoStaticServerModule from "./ExpoStaticServerModule";
 
@@ -33,6 +33,7 @@ export async function stopServer() {
   return (await ExpoStaticServerModule.stopServer()) as string;
 }
 
+/*
 export async function startFileServerByFiles(props: {
   port: number;
   host: string;
@@ -70,3 +71,4 @@ export async function startFileServerByZipFileUri(props: {
     root,
   });
 }
+*/
