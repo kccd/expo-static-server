@@ -4,6 +4,14 @@ A static server for expo.
 
 This library supports both `Android` and `IOS` right now.
 
+## Install
+```shell
+npx expo install expo-static-server
+# or
+npm i expo-static-server
+# or
+yarn add expo-static-server
+```
 ## Usage
 
 ```Typescript
