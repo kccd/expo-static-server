@@ -1,6 +1,8 @@
 expo-static-server
 ----
-This library currently supports only the Android platform.
+A static server for expo. 
+
+This library supports both `Android` and `IOS` right now.
 
 ## Usage
 
