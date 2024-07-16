@@ -38,12 +38,22 @@ class HttpServer(private val host: String, private val port: Int, private val st
                         targetFile = indexFile
                     }
                 }
+            } else {
+                // Try common file extensions
+                val commonExtensions = listOf(".html", ".htm")
+                for (extension in commonExtensions) {
+                    val fileWithExtension = File(staticDirectory, "$uri$extension")
+                    if (fileWithExtension.exists() && fileWithExtension.isFile) {
+                        targetFile = fileWithExtension
+                        break
+                    }
+                }
             }
 
-            if(targetFile == null) {
-                return this.notFoundResponse()
+            return if(targetFile == null) {
+                this.notFoundResponse()
             } else {
-                return this.successResponse(targetFile)
+                this.successResponse(targetFile)
             }
 
         } catch (e: IOException) {

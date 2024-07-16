@@ -5,7 +5,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const [assets] = useAssets([require("./assets/index.html")]);
+  const [assets] = useAssets(
+    [
+      require("./assets/index.html"),
+      require("./assets/about.html")
+    ]
+  );
   const serverInfo = useMemo(() => {
     return {
       port: 8080,
@@ -18,12 +23,19 @@ export default function App() {
 
   useEffect(() => {
     if (!assets || assets.length === 0) return;
-    const htmlFilePath = assets[0].localUri;
+    const htmlFilePath = assets[0].localUri || '';
+    const aboutFilePath = assets[1].localUri || '';
     if (!htmlFilePath) return;
     FileSystem.copyAsync({
       from: htmlFilePath,
       to: FileSystem.documentDirectory + "index.html",
     })
+      .then(() => {
+        return FileSystem.copyAsync({
+          from: aboutFilePath,
+          to: FileSystem.documentDirectory + "about.html",
+        })
+      })
       .then(() => {
         return FileSystem.readDirectoryAsync(serverInfo.root);
       })
