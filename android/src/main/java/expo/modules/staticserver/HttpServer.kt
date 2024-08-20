@@ -9,7 +9,11 @@ import java.io.IOException
 class HttpServer(private val host: String, private val port: Int, private val staticDirectory: String) : NanoHTTPD(host, port) {
 
     private fun successResponse(file: File): Response  {
-        val mimeType = NanoHTTPD.getMimeTypeForFile(file.name)
+        val mimeType = if (file.extension in listOf("html", "htm")) {
+            "text/html"
+        } else {
+            NanoHTTPD.getMimeTypeForFile(file.name)
+        }
         val inputStream = FileInputStream(file)
         return NanoHTTPD.newFixedLengthResponse(Response.Status.OK, mimeType, inputStream, file.length())
     }
